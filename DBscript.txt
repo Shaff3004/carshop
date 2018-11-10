@@ -1,0 +1,46 @@
+DROP DATABASE IF EXISTS carshop;
+CREATE DATABASE carshop;
+
+CREATE TABLE IF NOT EXISTS carshop.users(
+	`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(40) NOT NULL,
+    `login` VARCHAR(20) NOT NULL UNIQUE,
+    `email` VARCHAR(30) NOT NULL UNIQUE,
+    `password` VARCHAR(40) NOT NULL,
+    `gender` VARCHAR(12) NOT NULL,
+    `newsletter` BOOLEAN NOT NULL,
+    `role_id` INT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS carshop.cars(
+	`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `mark` VARCHAR(40) NOT NULL,
+    `model` VARCHAR(40) NOT NULL,
+    `type` ENUM("sedan", "universal", "hatchback", "coupe", "minivan", "cabriolet","offroad") NOT NULL,
+    `year` YEAR NOT NULL CHECK(year > 1970 AND year < NOW()),
+    `max_speed` INT NOT NULL CHECK(max_speed > 120 AND max_speed < 350),
+    `price` INT NOT NULL CHECK(price > 0 AND price < 1000000)
+);
+
+CREATE TABLE IF NOT EXISTS carshop.orders(
+	`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT NOT NULL,
+    `date` DATE NOT NULL,
+    `status` ENUM("canceled", "confirmed", "registered"),
+    FOREIGN KEY(`user_id`) REFERENCES carshop.users(`id`)    
+);
+
+CREATE TABLE IF NOT EXISTS carshop.orders_items(
+	`order_id` INT NOT NULL,
+    `item_id` INT NOT NULL,
+    `count` INT NOT NULL,
+    `cost` INT NOT NULL CHECK(cost > 0 AND cost < 1000000),
+    FOREIGN KEY(`order_id`) REFERENCES carshop.orders(`id`),
+    FOREIGN KEY(`item_id`) REFERENCES carshop.cars(`id`)
+);
+
+CREATE TABLE IF NOT EXISTS carshop.avatars(
+	`user_id` INT NOT NULL,
+    `avatar_name` VARCHAR(100) NOT NULL,
+    FOREIGN KEY(`user_id`) REFERENCES carshop.users(`id`)
+);

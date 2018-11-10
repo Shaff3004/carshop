@@ -1,0 +1,104 @@
+<web-app
+        xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+        version="3.1">
+
+    <welcome-file-list>
+        <welcome-file>GoHomeServlet</welcome-file>
+    </welcome-file-list>
+
+    <filter>
+        <filter-name>AccessFilter</filter-name>
+        <filter-class>com.shaff.carshop.web.filters.AccessFilter</filter-class>
+        <init-param>
+            <param-name>xmlPath</param-name>
+            <param-value>src/main/webapp/constraints.xml</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AccessFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>LocaleFilter</filter-name>
+        <filter-class>com.shaff.carshop.web.filters.LocaleFilter</filter-class>
+        <init-param>
+            <param-name>supportedLocalesList</param-name>
+            <param-value>ru,en_US,en,fr</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>defaultLocale</param-name>
+            <param-value>en</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>localeStorageStrategy</param-name>
+            <param-value>cookies</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>LocaleFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>GZIPFilter</filter-name>
+        <filter-class>com.shaff.carshop.web.filters.GZIPFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>GZIPFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>CacheFilter</filter-name>
+        <filter-class>com.shaff.carshop.web.filters.NoCacheFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>CacheFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>GoHomeServlet</servlet-name>
+        <servlet-class>com.shaff.carshop.web.servlets.HomeServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>GoHomeServlet</servlet-name>
+        <url-pattern></url-pattern>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+
+    <context-param>
+        <param-name>captchaStrategy</param-name>
+        <param-value>session</param-value>
+    </context-param>
+    <context-param>
+        <param-name>timeDelay</param-name>
+        <param-value>1:30</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>photoUploads</param-name>
+        <param-value>C:\Users\Serhii_Volodin\IdeaProjects\Pre_prod_java_console_shop\carshop\src\main\webapp\uploads\
+        </param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>localeCookieTime</param-name>
+        <param-value>01:00:00</param-value>
+    </context-param>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/jsp/error_page.jsp</location>
+    </error-page>
+</web-app>
