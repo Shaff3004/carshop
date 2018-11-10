@@ -12,11 +12,9 @@ public class RequestToSearchFormBeanConverter implements Converter<HttpServletRe
 
     @Override
     public SearchFormBean convert(HttpServletRequest source) {
-        SearchFormBean bean = new SearchFormBean();
-        for(Populator<HttpServletRequest, SearchFormBean> currentPopulator: populators){
-            currentPopulator.populate(source, bean);
-        }
-        return bean;
+        SearchFormBean target = new SearchFormBean();
+        populators.forEach(populator -> populator.populate(source, target));
+        return target;
     }
 
     @Override

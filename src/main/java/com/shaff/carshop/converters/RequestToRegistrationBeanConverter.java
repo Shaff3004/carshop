@@ -12,11 +12,9 @@ public class RequestToRegistrationBeanConverter implements Converter<HttpServlet
 
     @Override
     public UserRegistrationBean convert(HttpServletRequest source) {
-        UserRegistrationBean bean = new UserRegistrationBean();
-        for (Populator<HttpServletRequest, UserRegistrationBean> currentPopulator : populators) {
-            currentPopulator.populate(source, bean);
-        }
-        return bean;
+        UserRegistrationBean target = new UserRegistrationBean();
+        populators.forEach(populator -> populator.populate(source, target));
+        return target;
     }
 
     @Override

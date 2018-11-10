@@ -12,11 +12,9 @@ public class RegistrationBeanConverter implements Converter<UserRegistrationBean
 
     @Override
     public User convert(UserRegistrationBean source) {
-        User user = new User();
-        for (Populator<UserRegistrationBean, User> currentPopulator : populators) {
-            currentPopulator.populate(source, user);
-        }
-        return user;
+        User target = new User();
+        populators.forEach(populator -> populator.populate(source, target));
+        return target;
     }
 
     @Override

@@ -12,11 +12,9 @@ public class CartToOrderConverter implements Converter<Cart, Order> {
 
     @Override
     public Order convert(Cart source) {
-        Order order = new Order();
-        for (Populator<Cart, Order> currentPopulator : populators) {
-            currentPopulator.populate(source, order);
-        }
-        return order;
+        Order target = new Order();
+        populators.forEach(populator -> populator.populate(source, target));
+        return target;
     }
 
     @Override

@@ -4,6 +4,8 @@ import com.shaff.carshop.constants.Gender;
 import com.shaff.carshop.db.beans.UserRegistrationBean;
 import com.shaff.carshop.db.entity.User;
 
+import java.util.Objects;
+
 public class UserPopulator implements Populator<UserRegistrationBean, User> {
     private static final String ON = "on";
 
@@ -14,7 +16,7 @@ public class UserPopulator implements Populator<UserRegistrationBean, User> {
         target.setEmail(source.getEmail());
         target.setPassword(source.getPassword());
         target.setGender(Gender.valueOf(source.getGender().toUpperCase()));
-        if(source.getNewsletter() != null) {
+        if (Objects.nonNull(source.getNewsletter())) {
             target.setNewsletter(source.getNewsletter().equals(ON));
         }
         target.setRoleId(2);

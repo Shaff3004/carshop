@@ -12,11 +12,9 @@ public class RequestToLoginBeanConverter implements Converter<HttpServletRequest
 
     @Override
     public UserLoginBean convert(HttpServletRequest source) {
-        UserLoginBean bean = new UserLoginBean();
-        for (Populator<HttpServletRequest, UserLoginBean> currentPopulator : populators) {
-            currentPopulator.populate(source, bean);
-        }
-        return bean;
+        UserLoginBean target = new UserLoginBean();
+        populators.forEach(populator -> populator.populate(source, target));
+        return target;
     }
 
     @Override
